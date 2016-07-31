@@ -1,4 +1,9 @@
-# PokemonGo-Bot
+# Poke Sniper
+*Based on `PokemonGo-Bot`*
+
+Poke Sniper is some kind of port project from [.NET Poke Sniper](http://www.ownedcore.com/forums/pokemon-go/pokemon-go-hacks-cheats/566079-pokesniper2-pokemon-sniper-catch-any-pokemon-no-matter-where-you.html) but is forked from `PokemonGo-Bot`
+_____________________
+
 PokemonGo bot is a project created by the [PokemonGoF](https://github.com/PokemonGoF) team.
 The project is currently setup in two main branches. `dev` and `master`.
 
