@@ -1,3 +1,5 @@
+from random import randint
+
 from pgoapi.utilities import f2i
 
 from pokemongo_bot import logger
@@ -28,14 +30,15 @@ class HandleSoftBan(BaseTask):
         )
 
         if fort_distance > Constants.MAX_DISTANCE_FORT_IS_REACHABLE:
-            MoveToFort(self.bot).work()
+            MoveToFort(self.bot, config=None).work()
             self.bot.recent_forts = self.bot.recent_forts[0:-1]
             if forts[0]['id'] in self.bot.fort_timeouts:
                 del self.bot.fort_timeouts[forts[0]['id']]
             return WorkerResult.RUNNING
         else:
-            logger.log('Starting 50 spins...')
-            for i in xrange(50):
+            spins = randint(50,60)
+            logger.log('Starting %s spins...' % spins)
+            for i in xrange(spins):
                 if (i + 1) % 10 == 0:
                     logger.log('Spin #{}'.format(str(i+1)))
                 self.spin_fort(forts[0])
@@ -50,7 +53,6 @@ class HandleSoftBan(BaseTask):
             player_latitude=f2i(self.bot.position[0]),
             player_longitude=f2i(self.bot.position[1])
         )
-        self.bot.api.call()
 
     def should_run(self):
         return self.bot.softban

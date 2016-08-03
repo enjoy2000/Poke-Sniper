@@ -14,7 +14,10 @@ from utils import distance, format_time, fort_details
 
 class SpinFort(BaseTask):
     def should_run(self):
-        return self.bot.has_space_for_loot()
+        if not self.bot.has_space_for_loot():
+            logger.log("Not spinning any forts as there aren't enough space. You might want to change your config to recycle more items if this message appears consistently.", 'yellow')
+            return False
+        return True
 
     def work(self):
         fort = self.get_fort_in_range()
@@ -30,12 +33,13 @@ class SpinFort(BaseTask):
         logger.log('Now at Pokestop: {0}'.format(fort_name), 'cyan')
         logger.log('Spinning ...', 'cyan')
 
-        self.bot.api.fort_search(fort_id=fort['id'],
-                             fort_latitude=lat,
-                             fort_longitude=lng,
-                             player_latitude=f2i(self.bot.position[0]),
-                             player_longitude=f2i(self.bot.position[1]))
-        response_dict = self.bot.api.call()
+        response_dict = self.bot.api.fort_search(
+            fort_id=fort['id'],
+            fort_latitude=lat,
+            fort_longitude=lng,
+            player_latitude=f2i(self.bot.position[0]),
+            player_longitude=f2i(self.bot.position[1])
+        )
         if 'responses' in response_dict and \
                 'FORT_SEARCH' in response_dict['responses']:
 
